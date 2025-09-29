@@ -31,7 +31,7 @@ export function MainGame() {
 
     const handleFeedback = (feedback: FeedbackMessage) => {
       setFeedbackMessages(prev => [...prev, feedback]);
-      
+
       // Auto-dismiss non-critical messages after 5 seconds
       if (feedback.type === 'info' || feedback.type === 'warning') {
         setTimeout(() => {
@@ -40,19 +40,23 @@ export function MainGame() {
       }
     };
 
-    gameEngine.onFeedback(handleFeedback);
-    
+    const unsubscribe = gameEngine.onFeedback(handleFeedback);
+
+    // Ensure the latest engine state is reflected immediately
+    updateState();
+
     // Set up polling for state updates
     const interval = setInterval(updateState, 100);
-    
+
     return () => {
       clearInterval(interval);
+      unsubscribe();
     };
   }, [gameEngine]);
 
   React.useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
+    let interval: ReturnType<typeof setInterval> | undefined;
+
     if (gameState.gameActive && gameState.startTime) {
       interval = setInterval(() => {
         setTimeElapsed(Math.floor((Date.now() - gameState.startTime!.getTime()) / 1000));
@@ -63,6 +67,12 @@ export function MainGame() {
       if (interval) clearInterval(interval);
     };
   }, [gameState.gameActive, gameState.startTime]);
+
+  React.useEffect(() => {
+    if (!selectedScenario && availableScenarios.length > 0) {
+      setSelectedScenario(availableScenarios[0]);
+    }
+  }, [selectedScenario, availableScenarios]);
 
   React.useEffect(() => {
     if (gameState.gameCompleted) {

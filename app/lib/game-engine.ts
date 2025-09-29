@@ -214,8 +214,12 @@ export class ConveyXGameEngine {
     this.feedbackCallbacks.forEach(callback => callback(feedback));
   }
 
-  public onFeedback(callback: (feedback: FeedbackMessage) => void): void {
+  public onFeedback(callback: (feedback: FeedbackMessage) => void): () => void {
     this.feedbackCallbacks.push(callback);
+
+    return () => {
+      this.feedbackCallbacks = this.feedbackCallbacks.filter(cb => cb !== callback);
+    };
   }
 
   public getGameState(): GameState {

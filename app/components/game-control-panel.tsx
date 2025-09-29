@@ -40,7 +40,7 @@ export function GameControlPanel({
   const [timeElapsed, setTimeElapsed] = React.useState(0);
 
   React.useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval> | undefined;
     
     if (gameState.gameActive && gameState.startTime) {
       interval = setInterval(() => {
