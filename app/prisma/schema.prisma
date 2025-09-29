@@ -1,0 +1,66 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+    output = "/home/ubuntu/conveyx_training_game/app/node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model GameScenario {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  difficulty  String   @default("beginner") // beginner, intermediate, advanced
+  faultPanels Int[]    // Array of panel IDs with faults
+  successConditions Json // Conditions to complete the scenario
+  timeLimit   Int?     // Optional time limit in seconds
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  gameSessions GameSession[]
+  
+  @@map("game_scenarios")
+}
+
+model GameSession {
+  id         String   @id @default(cuid())
+  userId     String?  // Optional - for anonymous users
+  scenarioId String
+  status     String   @default("active") // active, completed, failed
+  score      Int      @default(0)
+  startTime  DateTime @default(now())
+  endTime    DateTime?
+  actions    Json[]   @default([]) // Log of all user actions
+  
+  scenario GameScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  
+  @@map("game_sessions")
+}
+
+model UserProgress {
+  id            String   @id @default(cuid())
+  userId        String
+  totalSessions Int      @default(0)
+  completedSessions Int  @default(0)
+  averageScore  Float    @default(0.0)
+  bestScore     Int      @default(0)
+  lastPlayed    DateTime @default(now())
+  
+  @@unique([userId])
+  @@map("user_progress")
+}
+
+model SystemSettings {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+  
+  @@map("system_settings")
+}
