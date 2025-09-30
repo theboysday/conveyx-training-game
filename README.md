@@ -120,4 +120,8 @@ Then in the GitHub repository settings choose `Settings → Pages → Build and 
 - `prisma/` – Database schema and Prisma client setup.
 - `app/scripts/` – Utility scripts for development.
 
+## Data Sources
+
+The interactive training experience runs entirely on the client and loads its scenarios from the static definitions in [`app/lib/scenarios.ts`](app/lib/scenarios.ts). With the App Router API handlers removed, any production backend should run as a separate service that the UI can call without relying on Next.js API routes.
+
 Feel free to explore the codebase to understand how the training game is implemented.
