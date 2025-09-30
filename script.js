@@ -28,6 +28,36 @@ const panelContainer = document.getElementById('panel-container');
 const startButton = document.getElementById('startButton');
 const newScenarioButton = document.getElementById('newScenarioButton');
 const feedbackEl = document.getElementById('feedback');
+const feedbackSidebar = document.getElementById('feedbackSidebar');
+const feedbackToggleButton = document.getElementById('feedbackToggle');
+
+if (feedbackToggleButton && feedbackSidebar) {
+  setFeedbackSidebarExpanded(false);
+  feedbackToggleButton.addEventListener('click', () => {
+    toggleFeedbackSidebar();
+  });
+}
+
+/**
+ * Expand or collapse the feedback sidebar.
+ *
+ * @param {boolean} expanded - Whether the sidebar should be expanded.
+ */
+function setFeedbackSidebarExpanded(expanded) {
+  if (!feedbackSidebar || !feedbackToggleButton) return;
+  feedbackSidebar.classList.toggle('collapsed', !expanded);
+  feedbackSidebar.setAttribute('aria-expanded', String(expanded));
+  feedbackToggleButton.setAttribute('aria-expanded', String(expanded));
+}
+
+/**
+ * Toggle the current state of the feedback sidebar.
+ */
+function toggleFeedbackSidebar() {
+  if (!feedbackSidebar) return;
+  const isCollapsed = feedbackSidebar.classList.contains('collapsed');
+  setFeedbackSidebarExpanded(isCollapsed);
+}
 
 /**
  * Initialize a new game scenario.
@@ -328,9 +358,11 @@ function updateFeedback(message) {
   if (!message) {
     feedbackEl.style.display = 'none';
     feedbackEl.textContent = '';
+    setFeedbackSidebarExpanded(false);
   } else {
     feedbackEl.style.display = 'block';
     feedbackEl.textContent = message;
+    setFeedbackSidebarExpanded(true);
   }
 }
 
