@@ -1,127 +1,115 @@
-# ConveyX Training Game
+# Conveyor Bypass Training Game
 
-This repository contains the ConveyX Training Game web application. It is built with Next.js and provides the main experience for practicing ConveyX workflows.
+This repository contains an interactive web‑based training game designed to
+teach technicians how to isolate communication faults in a ConveyX
+Mod‑LinX system using bypass switches. The game presents a grid of
+16 card‑style panels (one Master and 15 Child panels) and challenges
+users to determine which child panel has a randomly generated fault.
 
-## Viewing the App Locally
+## Features
 
-Once the development server is running, open the landing page at [http://localhost:3000/](http://localhost:3000/). From there you can launch the interactive training experience at [http://localhost:3000/training](http://localhost:3000/training), which renders the `MainGame` component.
+- **Panel Layout:** A responsive grid containing one Master panel and 15
+  Child panels. Each panel displays its title, a bypass control (ON/OFF),
+  relay indicators (CR‑1, CR‑2, CR‑BP) and a status indicator (Running or
+  Not running).  
+- **Random Fault Generation:** Every time a new scenario starts, a
+  random child panel is designated as the fault location. The fault and
+  bypass logic is computed in `script.js`.  
+- **Dynamic Feedback:** As technicians toggle bypass controls, the
+  application recalculates the relay states and chain status, providing
+  immediate feedback describing whether the fault is upstream or
+  downstream and when it has been successfully isolated.  
+- **Tutorial Video:** A built‑in tutorial video (“Logic of the
+  Silent Conveyor”) is provided at the bottom of the page. Users can
+  watch the video at different playback speeds (0.5× to 2×) via a
+  dropdown control.  
+- **Pure Client‑Side Implementation:** The entire application runs in
+  the browser; no back‑end server is required.
 
 ## Getting Started
 
-1. Install dependencies:
-   ```bash
-   cd app
-   yarn install
-   ```
-2. Run the development server:
-   ```bash
-   yarn dev
-   ```
-3. Visit the app in your browser using the link above.
+To run the training game locally:
 
-## Static Export for GitHub Pages
+1. Download or clone this repository (or obtain the provided
+   `conveyor_game.zip` archive and extract it).  
+2. Make sure all files (`index.html`, `style.css`, `script.js`,
+   `Logic_of_the_Silent_Conveyor.mp4`, `README.md`, and `AGENT.md`) reside
+   in the same directory.  
+3. Open `index.html` in a modern web browser (Chrome, Firefox,
+   Edge, Safari, etc.). The game runs entirely in your browser; no
+   additional software or web server is required.  
+4. Click **Start Simulation** to power up the system and begin. A
+   random fault will be generated automatically.  
+5. Toggle the bypass controls on child panels to test sections of
+   the communication loop. The status indicators and feedback messages
+   will guide you toward isolating the fault. When the correct panel’s
+   bypass is engaged, a pop‑up message will confirm your success.
 
-GitHub Pages expects a collection of static files that includes an `index.html` entry point. The steps below describe how to generate those files from the Next.js project under `app/` and publish them so GitHub Pages can serve the site at [https://theboysday.github.io/conveyx-training-game](https://theboysday.github.io/conveyx-training-game).
+## File Structure
 
-### 1. Configure Next.js for Static Export
-
-The application already ships with a `next.config.js` that enables static export when the `GITHUB_PAGES` environment variable is set. The relevant options are:
-
-- `output: 'export'` – enables Next.js' static export mode.
-- `basePath` and `assetPrefix` – automatically point to `/conveyx-training-game` when `GITHUB_PAGES=true`, ensuring assets load correctly when served from a repository sub-path.
-- `images.unoptimized` and `trailingSlash` – remove Next.js' dynamic image loader and make every route resolve to an `.html` file, which matches how GitHub Pages serves static content.
-
-No additional configuration changes are required before exporting.
-
-### 2. Build and Export the Static Site
-
-From the repository root run:
-
-```bash
-# Install dependencies if you have not already
-cd app
-yarn install
-
-# Build and export the static site into app/out
-export GITHUB_PAGES=true
-yarn build
-yarn export
+```
+conveyor_game/
+├── index.html        # Main HTML file; defines the page structure
+├── style.css         # Stylesheet controlling the look and layout
+├── script.js         # JavaScript file containing game logic
+├── Logic_of_the_Silent_Conveyor.mp4  # Tutorial video
+├── README.md         # This documentation file
+└── AGENT.md          # Guidance notes for future developers/agents
 ```
 
-This sequence runs `next build` followed by `next export`, producing an `app/out` directory that contains `index.html` alongside all other assets required by GitHub Pages.
+### `index.html`
 
-To rebuild later you only need to repeat the `export GITHUB_PAGES=true`, `yarn build`, and `yarn export` commands.
+Defines the overall page layout, including the control buttons, the
+dynamic panel container, the feedback area, and the tutorial video
+section. The panels themselves are generated dynamically by the
+JavaScript.
 
-### 3. Publish the Exported Files to GitHub Pages
+### `style.css`
 
-GitHub Pages can either serve the repository root or a `docs/` folder. Choose the option that best matches your current GitHub Pages settings:
+Contains CSS variables and rules to style the cards, buttons, feedback
+messages and video. It employs a responsive grid layout so the panels
+resize gracefully on different screen sizes.
 
-#### Option A – Serve from the repository root
+### `script.js`
 
-1. Remove any previously exported files:
-   ```bash
-   git clean -fdX
-   ```
-   (This deletes untracked files such as a previous `index.html` in the root.)
-2. Copy the freshly exported assets from `app/out/` into the repository root without overwriting source code:
-   ```bash
-   rsync -av --delete --exclude 'app' --exclude '.git' --exclude '.github' \
-     --exclude 'README.md' --exclude 'docs' --exclude '.gitignore' \
-     app/out/ ./
-   ```
-3. Commit and push the generated static files:
-   ```bash
-   git add .
-   git commit -m "Publish static export"
-   git push origin master
-   ```
+Implements the game’s logic and interactivity:
 
-> **Tip:** keeping generated files in the repository root can make diffs noisy. Consider creating a dedicated `gh-pages` branch if you prefer to isolate the static output.
+- Generates the panel cards on page load.
+- Initializes a random fault scenario and resets the UI.
+- Calculates relay states and running status based on bypass
+  configuration and fault position.
+- Updates the DOM to reflect current states and shows feedback
+  messages.
+- Manages the tutorial video playback rate via a dropdown control.
 
-#### Option B – Serve from `docs/`
+### `Logic_of_the_Silent_Conveyor.mp4`
 
-1. Copy the exported site into a `docs/` directory (created if necessary):
-   ```bash
-   mkdir -p docs
-   rsync -av --delete app/out/ docs/
-   ```
-2. In your repository settings (`Settings → Pages`) change the Pages source to `Deploy from a branch → master → /docs`.
-3. Commit and push the updated static files:
-   ```bash
-   git add docs
-   git commit -m "Publish static export"
-   git push origin master
-   ```
+A 6:40 training video explaining the troubleshooting and bypass
+methodology. It is embedded in the page and includes adjustable
+playback speed.
 
-Either approach leaves you with an `index.html` entry point where GitHub Pages expects it, ensuring the site renders correctly.
+### `AGENT.md`
 
-### 4. Automate the Deployment (Optional)
+Provides guidance for other developers or AI agents who may need to
+extend, modify or troubleshoot this project.
 
-A GitHub Actions workflow can rebuild and publish the site on every push to `master`. The provided `.github/workflows/deploy-gh-pages.yml` workflow performs the following steps:
+## Extending the Game
 
-1. Checks out the repository.
-2. Installs Node.js 18.x and project dependencies from `app/yarn.lock`.
-3. Runs `yarn build` and `yarn export` with `GITHUB_PAGES=true` to generate `app/out`.
-4. Publishes the contents of `app/out` to the `gh-pages` branch using `peaceiris/actions-gh-pages@v4`.
+If you plan to enhance the game, consider the following:
 
-To use the workflow:
+1. **Add New Scenarios:** The fault logic currently selects a random
+   child panel each time. You could extend this by loading predefined
+   scenarios from a JSON file (see the JSON template in the original
+   specification) or by introducing different failure modes.  
+2. **Scoring and Timing:** Implement scoring or time limits to add
+   difficulty. For example, penalize wrong guesses or measure how
+   quickly a user isolates the fault.  
+3. **Accessibility Improvements:** Ensure that colour choices meet
+   contrast guidelines, and consider adding keyboard navigation for
+   bypass controls.  
+4. **Backend Integration:** Although the current version is static,
+   you might integrate it with a backend to store user progress or
+   provide a management dashboard (as mentioned in the stretch goals).
 
-```bash
-git push origin master
-```
-
-Then in the GitHub repository settings choose `Settings → Pages → Build and deployment → Source → Deploy from a branch` and set `Branch` to `gh-pages` with the `/ (root)` folder. GitHub Pages will serve the exported static files automatically after each push.
-
-## Repository Structure
-
-- `app/` – Next.js application source, including pages, components, and configuration.
-- `.github/workflows/` – Continuous deployment workflow to rebuild and publish the static export.
-- `docs/` – Optional location for static exports when serving GitHub Pages from `/docs`.
-- `prisma/` – Database schema and Prisma client setup.
-- `app/scripts/` – Utility scripts for development.
-
-## Data Sources
-
-The interactive training experience runs entirely on the client and loads its scenarios from the static definitions in [`app/lib/scenarios.ts`](app/lib/scenarios.ts). With the App Router API handlers removed, any production backend should run as a separate service that the UI can call without relying on Next.js API routes.
-
-Feel free to explore the codebase to understand how the training game is implemented.
+Feel free to adapt the UI and logic while keeping the user guidance and
+feedback mechanisms clear and informative.

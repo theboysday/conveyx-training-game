@@ -1,0 +1,238 @@
+/*
+ * Conveyor Bypass Training Game
+ *
+ * This stylesheet defines the visual appearance of the training game.
+ * It uses CSS variables for easy theming and a responsive grid layout
+ * for the panel cards. Status indicators are represented as circles
+ * whose colours transition smoothly as the game state updates.
+ */
+
+/* Root CSS variables */
+:root {
+  --running-color: #4caf50; /* green */
+  --not-running-color: #e53935; /* red */
+  --card-bg: #ffffff; /* light card background */
+  --card-border: #e0e0e0; /* subtle border */
+  --text-primary: #333333;
+  --text-secondary: #555555;
+  --accent: #1976d2; /* blue accent for buttons */
+  --accent-light: #4791db;
+  --radius: 8px;
+  --transition-speed: 0.3s;
+}
+
+/* Global reset and typography */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+}
+
+body {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  line-height: 1.5;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Buttons styling */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+button.primary,
+button.secondary {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+button.primary {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+button.primary:hover {
+  background-color: var(--accent-light);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+button.secondary {
+  background-color: #eeeeee;
+  color: var(--text-primary);
+}
+
+button.secondary:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel grid container */
+.panel-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Individual card */
+.panel {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow var(--transition-speed);
+}
+
+.panel:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.panel h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Bypass controls */
+.bypass-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.bypass-control label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.bypass-control select {
+  padding: 0.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+  background-color: #fafafa;
+}
+
+/* Relay indicators container */
+.relays {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.relay {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--not-running-color);
+  transition: background-color var(--transition-speed);
+}
+
+/* Status indicator */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+.status .indicator {
+  width: 16px;
+  height: 16px;
+}
+
+/* Feedback area */
+.feedback {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  background-color: #fffde7;
+  color: #6d4c41;
+  font-size: 1rem;
+  min-height: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: none; /* hidden until there is feedback */
+}
+
+footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Video training section */
+.video-section {
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 640px;
+  width: 100%;
+}
+
+.video-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.video-section video {
+  width: 100%;
+  max-height: 280px;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  background-color: #000;
+}
+
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.playback-controls label {
+  font-weight: 600;
+}
+
+.playback-controls select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conveyor Bypass Training Game</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Include Google Fonts for nicer typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Conveyor Bypass Training Game</h1>
+  </header>
+
+  <main>
+    <!-- Button to start or reset the simulation -->
+    <div class="controls">
+      <button id="startButton" class="primary">Start Simulation</button>
+      <button id="newScenarioButton" class="secondary">New Scenario</button>
+    </div>
+
+    <!-- Container where the panels will be rendered -->
+    <div id="panel-container" class="panel-container"></div>
+    <!-- Feedback area for messages -->
+    <div id="feedback" class="feedback"></div>
+
+    <!-- Training video section placed at the bottom -->
+    <div class="video-section">
+      <h2>Bypass Methodology Tutorial</h2>
+      <video id="trainingVideo" controls>
+        <source src="Logic_of_the_Silent_Conveyor.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="playback-controls">
+        <label for="playbackRateSelector">Playback speed:</label>
+        <select id="playbackRateSelector">
+          <option value="0.5">0.5×</option>
+          <option value="0.75">0.75×</option>
+          <option value="1" selected>1× (normal)</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+          <option value="2">2×</option>
+        </select>
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>
+      Use the bypass controls to isolate the communication fault. Each panel
+      shows its relay indicators and status. Toggle a panel's bypass to see
+      how the system responds.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
