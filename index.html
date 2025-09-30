@@ -16,16 +16,37 @@
   </header>
 
   <main>
-    <!-- Button to start or reset the simulation -->
-    <div class="controls">
-      <button id="startButton" class="primary">Start Simulation</button>
-      <button id="newScenarioButton" class="secondary">New Scenario</button>
-    </div>
+    <div class="game-layout">
+      <div class="game-content">
+        <!-- Button to start or reset the simulation -->
+        <div class="controls">
+          <button id="startButton" class="primary">Start Simulation</button>
+          <button id="newScenarioButton" class="secondary">New Scenario</button>
+        </div>
 
-    <!-- Container where the panels will be rendered -->
-    <div id="panel-container" class="panel-container"></div>
-    <!-- Feedback area for messages -->
-    <div id="feedback" class="feedback"></div>
+        <!-- Container where the panels will be rendered -->
+        <div id="panel-container" class="panel-container"></div>
+      </div>
+
+      <!-- Collapsible feedback sidebar -->
+      <aside
+        id="feedbackSidebar"
+        class="feedback-sidebar collapsed"
+        aria-expanded="false"
+      >
+        <button
+          id="feedbackToggle"
+          class="feedback-toggle"
+          type="button"
+          aria-controls="feedback"
+          aria-expanded="false"
+        >
+          <span class="toggle-label">Feedback</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+        <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+      </aside>
+    </div>
 
     <!-- Training video section placed at the bottom -->
     <div class="video-section">
