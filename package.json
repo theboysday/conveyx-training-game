@@ -1,0 +1,13 @@
+{
+  "name": "conveyx-training-game",
+  "version": "1.0.0",
+  "description": "This repository contains an interactive web\u2011based training game designed to teach technicians how to isolate communication faults in a ConveyX Mod\u2011LinX system using bypass switches. The game presents a grid of 16 card\u2011style panels (one Master and 15 Child panels) and challenges users to determine which child panel has a randomly generated fault.",
+  "main": "script.js",
+  "scripts": {
+    "test": "python -m unittest discover -s tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
