@@ -22,6 +22,33 @@
       <button id="newScenarioButton" class="secondary">New Scenario</button>
     </div>
 
+    <!-- Floating feedback sidebar so hints are visible near the controls -->
+    <aside id="feedbackSidebar" class="feedback-sidebar" aria-live="polite">
+      <button
+        id="feedbackSidebarToggle"
+        class="feedback-sidebar-toggle"
+        type="button"
+        aria-controls="feedbackSidebarPanel"
+        aria-expanded="true"
+      >
+        Hide Feedback
+      </button>
+      <div id="feedbackSidebarPanel" class="feedback-sidebar-panel" role="complementary">
+        <div class="feedback-sidebar-header">
+          <h2>💡 Feedback Per Move</h2>
+          <button
+            id="feedbackSidebarClose"
+            class="feedback-sidebar-close"
+            type="button"
+            aria-label="Close feedback panel"
+          >
+            ×
+          </button>
+        </div>
+        <div id="feedbackSidebarContent" class="feedback-sidebar-content">No feedback yet.</div>
+      </div>
+    </aside>
+
     <!-- Container where the panels will be rendered -->
     <div id="panel-container" class="panel-container"></div>
     <!-- Feedback area for messages -->

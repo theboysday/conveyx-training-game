@@ -28,6 +28,45 @@ const panelContainer = document.getElementById('panel-container');
 const startButton = document.getElementById('startButton');
 const newScenarioButton = document.getElementById('newScenarioButton');
 const feedbackEl = document.getElementById('feedback');
+const feedbackSidebar = document.getElementById('feedbackSidebar');
+const feedbackSidebarContent = document.getElementById('feedbackSidebarContent');
+const feedbackSidebarToggle = document.getElementById('feedbackSidebarToggle');
+const feedbackSidebarClose = document.getElementById('feedbackSidebarClose');
+
+// Track whether the player intentionally collapsed the sidebar
+let sidebarManuallyCollapsed = false;
+
+/**
+ * Update the sidebar collapsed state and synchronise accessibility attributes.
+ */
+function setSidebarCollapsed(collapsed) {
+  if (!feedbackSidebar || !feedbackSidebarToggle) return;
+  feedbackSidebar.classList.toggle('collapsed', collapsed);
+  feedbackSidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+  feedbackSidebarToggle.textContent = collapsed ? 'Show Feedback' : 'Hide Feedback';
+  if (collapsed) {
+    feedbackSidebar.setAttribute('aria-hidden', 'true');
+  } else {
+    feedbackSidebar.removeAttribute('aria-hidden');
+  }
+}
+
+if (feedbackSidebarToggle) {
+  feedbackSidebarToggle.addEventListener('click', () => {
+    if (!feedbackSidebar) return;
+    const collapsed = !feedbackSidebar.classList.contains('collapsed');
+    sidebarManuallyCollapsed = collapsed;
+    setSidebarCollapsed(collapsed);
+  });
+}
+
+if (feedbackSidebarClose) {
+  feedbackSidebarClose.addEventListener('click', () => {
+    if (!feedbackSidebar) return;
+    sidebarManuallyCollapsed = true;
+    setSidebarCollapsed(true);
+  });
+}
 
 /**
  * Initialize a new game scenario.
@@ -328,9 +367,23 @@ function updateFeedback(message) {
   if (!message) {
     feedbackEl.style.display = 'none';
     feedbackEl.textContent = '';
+    if (feedbackSidebarContent) {
+      feedbackSidebarContent.textContent = 'No feedback yet.';
+    }
+    sidebarManuallyCollapsed = false;
+    setSidebarCollapsed(true);
   } else {
     feedbackEl.style.display = 'block';
     feedbackEl.textContent = message;
+    if (feedbackSidebarContent) {
+      feedbackSidebarContent.textContent = message;
+    }
+    if (!sidebarManuallyCollapsed) {
+      setSidebarCollapsed(false);
+    } else if (feedbackSidebar) {
+      // Even if manually collapsed, update button text state
+      setSidebarCollapsed(feedbackSidebar.classList.contains('collapsed'));
+    }
   }
 }
 

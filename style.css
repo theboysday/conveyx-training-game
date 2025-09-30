@@ -186,6 +186,116 @@ button.secondary:hover {
   display: none; /* hidden until there is feedback */
 }
 
+/* Floating feedback sidebar */
+.feedback-sidebar {
+  position: fixed;
+  top: 6rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.feedback-sidebar-toggle {
+  background-color: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.4rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.feedback-sidebar-toggle:hover,
+.feedback-sidebar-toggle:focus {
+  background-color: var(--accent-light);
+  outline: none;
+}
+
+.feedback-sidebar-panel {
+  width: min(320px, calc(100vw - 2rem));
+  background-color: #fffde7;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transform: translateX(0);
+  transition: transform var(--transition-speed), opacity var(--transition-speed);
+}
+
+.feedback-sidebar.collapsed .feedback-sidebar-panel {
+  transform: translateX(120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.feedback-sidebar.collapsed .feedback-sidebar-toggle {
+  background-color: #eeeeee;
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.feedback-sidebar-header h2 {
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.feedback-sidebar-close {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.feedback-sidebar-close:hover,
+.feedback-sidebar-close:focus {
+  color: var(--text-primary);
+  outline: none;
+}
+
+.feedback-sidebar-content {
+  padding: 0.75rem 1rem 1rem;
+  font-size: 0.95rem;
+  color: #6d4c41;
+  min-height: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .feedback-sidebar {
+    position: static;
+    align-items: stretch;
+    margin-bottom: 1rem;
+  }
+
+  .feedback-sidebar-panel {
+    width: 100%;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .feedback-sidebar.collapsed .feedback-sidebar-panel {
+    display: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
 footer {
   margin-top: 2rem;
   text-align: center;
