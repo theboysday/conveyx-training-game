@@ -4,7 +4,7 @@ This repository contains the ConveyX Training Game web application. It is built 
 
 ## Viewing the App Locally
 
-Once the development server is running, open the main page at [http://localhost:3000/](http://localhost:3000/). This serves the `HomePage` component located in `app/app/page.tsx`.
+Once the development server is running, open the landing page at [http://localhost:3000/](http://localhost:3000/). From there you can launch the interactive training experience at [http://localhost:3000/training](http://localhost:3000/training), which renders the `MainGame` component.
 
 ## Getting Started
 
